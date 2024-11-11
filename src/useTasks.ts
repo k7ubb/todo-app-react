@@ -7,6 +7,7 @@ export type Task = {
 
 export const useTasks = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [loaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const tasksJson = localStorage.getItem("tasks");
@@ -28,7 +29,14 @@ export const useTasks = () => {
         }
       ]);
     }
+    setIsLoaded(true);
   }, []);
+
+  useEffect(() => {
+    if (loaded) {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  }, [loaded, tasks]);
 
   const addTask = (task: Task) => {
     setTasks([...tasks, task]);
