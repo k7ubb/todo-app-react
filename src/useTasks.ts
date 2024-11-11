@@ -6,7 +6,8 @@ export type Task = {
 };
 
 export const useTasks = () => {
-  const [tasks, setTasks] = useState<Task[] | undefined>();
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const tasksJson = localStorage.getItem("tasks");
@@ -28,33 +29,26 @@ export const useTasks = () => {
         }
       ]);
     }
+    setIsLoaded(true);
   }, []);
 
-/*
-  useEffect(() => {
-    if (tasks) {
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-    }
-  }, [tasks]);
-*/
-
   const addTask = (task: Task) => {
-    setTasks([...(tasks ?? []), task]);
+    setTasks([...tasks, task]);
   };
 
   const removeTask = (task: Task) => {
-    setTasks((tasks ?? []).filter(_ => _ !== task));
+    setTasks(tasks.filter(_ => _ !== task));
   };
 
   const setTaskDone = (task: Task, done: boolean) => {
-    setTasks((tasks ?? []).map(_ => _ !== task? _ : {
+    setTasks(tasks.map(_ => _ !== task? _ : {
 			...task,
 			done
 		}));
-  }
+  };
 
 	return {
-    tasks: tasks ?? [],
+    tasks,
     addTask,
     removeTask,
     setTaskDone
