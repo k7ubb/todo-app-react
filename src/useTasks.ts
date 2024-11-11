@@ -28,7 +28,6 @@ export const useTasks = () => {
         }
       ]);
     }
-    setIsLoaded(true);
   }, []);
 
   const addTask = (task: Task) => {
