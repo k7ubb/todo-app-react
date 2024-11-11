@@ -15,16 +15,16 @@ export const useTasks = () => {
     } else {
       setTasks([
         {
-          "title": "買い物",
-          "done": true
+          title: "買い物",
+          done: true
         },
         {
-          "title": "メール返信",
-          "done": false
+          title: "メール返信",
+          done: false
         },
         {
-          "title": "レポート提出",
-          "done": false
+          title: "レポート提出",
+          done: false
         }
       ]);
     }
@@ -46,9 +46,17 @@ export const useTasks = () => {
     setTasks((tasks ?? []).filter(_ => _ !== task));
   };
 
+  const setTaskDone = (task: Task, done: boolean) => {
+    setTasks((tasks ?? []).map(_ => _ !== task? _ : {
+			...task,
+			done
+		}));
+  }
+
 	return {
     tasks: tasks ?? [],
     addTask,
-    removeTask
+    removeTask,
+    setTaskDone
   };
 };
