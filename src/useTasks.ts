@@ -7,7 +7,6 @@ export type Task = {
 
 export const useTasks = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [loaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     const tasksJson = localStorage.getItem("tasks");
