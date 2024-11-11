@@ -30,11 +30,13 @@ export const useTasks = () => {
     }
   }, []);
 
+/*
   useEffect(() => {
     if (tasks) {
       localStorage.setItem("tasks", JSON.stringify(tasks));
     }
   }, [tasks]);
+*/
 
   const addTask = (task: Task) => {
     setTasks([...(tasks ?? []), task]);
