@@ -10,6 +10,8 @@ const App: React.FC = () => {
     setTaskDone,
   } = useTasks();
   const [title, setTitle] = useState('');
+  const [category, setCategory] = useState("生活");
+  const [filter, setFilter] = useState("");
   const [isDeadline, setIsDeadline] = useState(false);
   const [deadline, setDeadline] = useState(new Date().toISOString().slice(0, 10));
 
@@ -33,6 +35,17 @@ const App: React.FC = () => {
           }
         </div>
         <div>
+          カテゴリ: 
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="生活">生活</option>
+            <option value="仕事">仕事</option>
+            <option value="趣味">趣味</option>
+          </select>
+        </div>
+        <div>
           <input
             type='text'
             value={title}
@@ -42,14 +55,30 @@ const App: React.FC = () => {
             type='button'
             value='追加'
             onClick={() => {
-              addTask({title, done: false, ...(isDeadline ? {deadline} : {})});
+              addTask({title, category, done: false, ...(isDeadline ? {deadline} : {})});
               setTitle('');
             }}
           />
         </div>
       </div>
+      <div className="filter">
+          カテゴリで絞り込む: 
+          <select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+          >
+            <option value="">すべて表示</option>
+            <option value="生活">生活</option>
+            <option value="仕事">仕事</option>
+            <option value="趣味">趣味</option>
+          </select>
+        </div>
       <ul>
-        {tasks.sort((a, b) => (a.deadline ?? '') < (b.deadline ?? '') ? -1 : 1).map((task, i) => (
+        {tasks.filter(
+          (task) => !filter || task.category === filter
+        ).sort(
+          (a, b) => (a.deadline ?? '') < (b.deadline ?? '') ? -1 : 1
+        ).map((task, i) => (
           <li key={i} className={task.deadline && task.deadline < new Date().toISOString().slice(0,10) ? 'expired' : ''}>
             <label>
               {task.deadline && <p>期限: {task.deadline}</p>}
@@ -58,6 +87,7 @@ const App: React.FC = () => {
                 checked={task.done}
                 onChange={(e) => setTaskDone(task, e.target.checked)}
               />
+              <span>{task.category}</span>
               {task.title}
             </label>
             <button onClick={() => removeTask(task)}>×</button>

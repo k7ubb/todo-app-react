@@ -6,9 +6,10 @@
 .form > div {
 	display: flex;
 	gap: 8px;
+	margin-top: 4px;
 }
 
-.form input[type='text'], .form input[type='date'] {
+.form input[type='text'], .form input[type='date'], .form select {
 	display: block;
 	padding: 0;
 	border: 1px solid #ddd;
@@ -19,6 +20,11 @@
 .form input[type='button'] {
 	width: 80px;
 	border: 1px solid #ddd;
+}
+
+.filter {
+	width: 300px;
+	margin: 16px auto;
 }
 
 ul {
@@ -49,6 +55,13 @@ li label p {
 	margin: 0 20px 4px;
 	font-size: .8em;
 	line-height: 1em;
+}
+
+li label span {
+	font-size: .8em;
+	vertical-align: top;
+	color: #999;
+	margin-right: 8px;
 }
 
 li:has(input:checked) {
