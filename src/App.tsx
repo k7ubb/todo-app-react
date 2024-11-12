@@ -22,24 +22,24 @@ const App: React.FC = () => {
         <input
           type='button'
           value='追加'
-          onClick={() => {
-            addTask({title, done: false});
+          onClick={async () => {
+            await addTask({title, done: false});
             setTitle('');
           }}
         />
       </div>
       <ul>
-        {tasks.map((task, i) => (
-          <li key={i}>
+        {tasks.map((task) => (
+          <li key={task.id}>
             <label>
               <input
                 type='checkbox'
                 checked={task.done}
-                onChange={(e) => setTaskDone(task, e.target.checked)}
+                onChange={async (e) => await setTaskDone(task, e.target.checked)}
               />
               {task.title}
             </label>
-            <button onClick={() => removeTask(task)}>×</button>
+            <button onClick={async () => await removeTask(task)}>×</button>
           </li>
         ))}
       </ul>
