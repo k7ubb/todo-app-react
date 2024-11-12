@@ -6,29 +6,20 @@ export type Task = {
 };
 
 export const useTasks = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-
-  useEffect(() => {
-    const tasksJson = localStorage.getItem("tasks");
-    if (tasksJson) {
-      setTasks(JSON.parse(tasksJson));
-    } else {
-      setTasks([
-        {
-          title: "買い物",
-          done: true
-        },
-        {
-          title: "メール返信",
-          done: false
-        },
-        {
-          title: "レポート提出",
-          done: false
-        }
-      ]);
+  const [tasks, setTasks] = useState<Task[]>([
+    {
+      title: "買い物",
+      done: true
+    },
+    {
+      title: "メール返信",
+      done: false
+    },
+    {
+      title: "レポート提出",
+      done: false
     }
-  }, []);
+  ]);
 
   const addTask = (task: Task) => {
     setTasks([...tasks, task]);
