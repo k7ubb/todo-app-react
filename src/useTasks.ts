@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { db } from './firebase';
-import { collection, doc, getDocs, query, addDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { getFirestoreTasks, addFirestoreTask, setFirestoreTaskDone, removeFirestoreTask } from './repository';
 
 export type Task = {
   id?: string;
@@ -12,16 +11,7 @@ export const useTasks = () => {
   const [tasks, setTasks] = useState<Required<Task>[]>([]);
 
   const update = async () => {
-    const tasks_ = [] as Required<Task>[];
-    (await getDocs(query(
-      collection(db, "tasks"),
-    ))).forEach(doc => {
-      tasks_.push({
-        id: doc.id,
-        ...doc.data()
-      } as Required<Task>);
-    });
-    setTasks(tasks_);
+    setTasks(await getFirestoreTasks());
   };
 
   useEffect(() => {
@@ -29,20 +19,17 @@ export const useTasks = () => {
   }, []);
 
   const addTask = async (task: Task) => {
-    await addDoc(collection(db, "tasks"), task);
+    await addFirestoreTask(task);
     await update();
   };
 
   const removeTask = async (task: Required<Task>) => {
-    await deleteDoc(doc(db, "tasks", task.id));
+    await removeFirestoreTask(task);
     await update();
   };
 
   const setTaskDone = async(task: Required<Task>, done: boolean) => {
-    await updateDoc(doc(db, "tasks", task.id), {
-      title: task.title,
-      done
-    });
+    await setFirestoreTaskDone(task, done);
     await update();
   };
 
