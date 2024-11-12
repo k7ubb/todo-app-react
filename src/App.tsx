@@ -10,6 +10,7 @@ const App: React.FC = () => {
     setTaskDone,
   } = useTasks();
   const [title, setTitle] = useState('');
+  const [disabled, setDisabled] = useState(false);
 
   return (
     <>
@@ -22,8 +23,11 @@ const App: React.FC = () => {
         <input
           type='button'
           value='追加'
-          onClick={async () => {
+          disabled={disabled}
+          onClick={async (e) => {
+            setDisabled(true);
             await addTask({title, done: false});
+            setDisabled(false);
             setTitle('');
           }}
         />
